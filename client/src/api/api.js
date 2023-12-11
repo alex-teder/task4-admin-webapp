@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3030/";
+const BASE_URL = "https://admin-webapp-nef5.onrender.com/";
 
 const USERS_ENDPOINT = BASE_URL + "users";
 const AUTH_ENDPOINT = BASE_URL + "auth";

@@ -7,9 +7,9 @@ import { PATHS } from "/src/router";
 import { LayoutWrapper } from "/src/components/LayoutWrapper";
 import { MyInput } from "/src/components/ui/MyInput/MyInput";
 import s from "./style.module.css";
-import { apiLogIn } from "../../api/api";
-import { saveUser } from "../../utils/storageUtils";
-import { isLoginFormValid } from "../../utils/validation";
+import { apiLogIn } from "/src/api";
+import { saveUser } from "/src/utils/storageUtils";
+import { isLoginFormValid } from "/src/utils/validation";
 
 export function LoginPage() {
   const navigate = useNavigate();

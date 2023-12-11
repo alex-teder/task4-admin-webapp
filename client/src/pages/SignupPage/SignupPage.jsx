@@ -7,9 +7,9 @@ import { PATHS } from "/src/router";
 import { LayoutWrapper } from "/src/components/LayoutWrapper";
 import { MyInput } from "/src/components/ui/MyInput";
 import s from "./style.module.css";
-import { apiSignUp } from "../../api/api";
-import { saveUser } from "../../utils/storageUtils";
-import { isSignupFormValid } from "../../utils/validation";
+import { apiSignUp } from "/src/api";
+import { saveUser } from "/src/utils/storageUtils";
+import { isSignupFormValid } from "/src/utils/validation";
 
 export function SignupPage() {
   const navigate = useNavigate();
