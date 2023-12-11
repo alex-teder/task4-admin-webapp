@@ -1,0 +1,14 @@
+.wrapper {
+  margin-block: 1rem;
+  margin-inline: auto;
+  padding: 0.5rem;
+  max-width: 850px;
+}
+
+.centeredWrapper {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
