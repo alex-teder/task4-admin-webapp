@@ -13,6 +13,7 @@ import { isSignupFormValid } from "/src/utils/validation";
 
 export function SignupPage() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,9 +27,11 @@ export function SignupPage() {
       setError("All fields are required!");
       return;
     }
+    setIsLoading(true);
     setError(null);
     const { data, error } = await apiSignUp(username, email, password);
     if (error) {
+      setIsLoading(false);
       setError(error);
     } else {
       saveUser({ ...data, email });
@@ -48,7 +51,7 @@ export function SignupPage() {
           />
           <MyInput id="email" label="Email" value={email} onChange={handler(setEmail)} />
           <MyInput label="Password" isPassword value={password} onChange={handler(setPassword)} />
-          <Button label="SIGN UP" type="submit" />
+          <Button label="SIGN UP" type="submit" loading={isLoading} />
 
           {error && <Message severity="error" text={error} />}
         </form>

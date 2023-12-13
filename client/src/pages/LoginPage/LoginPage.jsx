@@ -14,6 +14,7 @@ import { isLoginFormValid } from "/src/utils/validation";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -31,9 +32,11 @@ export function LoginPage() {
       setError("All fields are required!");
       return;
     }
+    setIsLoading(true);
     setError(null);
     const { data, error } = await apiLogIn(email, password);
     if (error) {
+      setIsLoading(false);
       setError(error);
     } else {
       saveUser({ ...data, email });
@@ -47,7 +50,7 @@ export function LoginPage() {
         <form className={s.form} onSubmit={handleSubmit}>
           <MyInput id="email" label="Email" value={email} onChange={handler(setEmail)} />
           <MyInput label="Password" isPassword value={password} onChange={handler(setPassword)} />
-          <Button label="LOG IN" type="submit" />
+          <Button label="LOG IN" type="submit" loading={isLoading} />
 
           {error && <Message severity="error" text={error} />}
         </form>
