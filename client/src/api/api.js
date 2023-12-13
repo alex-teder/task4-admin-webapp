@@ -22,6 +22,12 @@ async function genericFetch(url, options) {
   return { data, error };
 }
 
+export async function apiWakeUp() {
+  const controller = new AbortController();
+  fetch(BASE_URL, { signal: controller.signal });
+  return { abort: controller.abort };
+}
+
 export async function apiGetUsers(token) {
   const options = {
     headers: { Authorization: `Bearer ${token}` },

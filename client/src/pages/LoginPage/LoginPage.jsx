@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
@@ -8,6 +8,7 @@ import { LayoutWrapper } from "/src/components/LayoutWrapper";
 import { MyInput } from "/src/components/ui/MyInput/MyInput";
 import s from "./style.module.css";
 import { apiLogIn } from "/src/api";
+import { apiWakeUp } from "/src/api";
 import { saveUser } from "/src/utils/storageUtils";
 import { isLoginFormValid } from "/src/utils/validation";
 
@@ -16,6 +17,11 @@ export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const { abort } = apiWakeUp();
+    return () => abort();
+  }, []);
 
   const handler = (fn) => (e) => fn(e.target.value);
 
