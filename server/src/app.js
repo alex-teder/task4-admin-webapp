@@ -3,18 +3,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { ObjectId } from "mongodb";
 import { makeConnection, usersCollection } from "./modules/db.js";
-import {
-  checkIfUserExists,
-  checkIfUserIsBlocked,
-  createUser,
-  validateUser,
-  updateLastSeen,
-} from "./modules/users.js";
+import { checkIfUserIsBlocked, createUser, validateUser, updateLastSeen } from "./modules/users.js";
 import { createTokenFromEmail, verifyTokenMiddleware } from "./modules/tokens.js";
 
 dotenv.config();
 
 const ROUTES = {
+  ROOT: "/",
   AUTH: "/auth",
   USERS: "/users",
 };
@@ -28,14 +23,13 @@ app.use(express.json());
 // sign up
 router.post(ROUTES.AUTH, async (req, res) => {
   const { username, email, password } = req.body;
-  const isExistingUser = await checkIfUserExists(email);
-  if (isExistingUser) {
-    res.status(400).send("User already exists");
-    return;
+  try {
+    await createUser(username, email, password);
+    const token = createTokenFromEmail(email);
+    res.json({ token });
+  } catch (err) {
+    res.status(400).send("User already exists.");
   }
-  await createUser(username, email, password);
-  const token = createTokenFromEmail(email);
-  res.json({ token });
 });
 
 // log in
@@ -85,6 +79,11 @@ router.put(ROUTES.USERS, verifyTokenMiddleware, async (req, res) => {
     result = await usersCollection.deleteMany({ _id: { $in: mongoIds } });
   });
   res.json({ deletedCount: result.deletedCount });
+});
+
+// wake up the server
+router.get(ROUTES.ROOT, (req, res) => {
+  res.json({ ping: "pong" });
 });
 
 app.use(router);
